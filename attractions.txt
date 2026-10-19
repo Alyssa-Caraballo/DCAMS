@@ -1,0 +1,21 @@
+101,Space Mountain,Magic Kingdom - Tomorrowland,44.0,22000,true
+102,Big Thunder Mountain Railroad,Magic Kingdom - Frontierland,40.0,24000,true
+103,Haunted Mansion,Magic Kingdom - Liberty Square,0.0,28000,true
+104,Pirates of the Caribbean,Magic Kingdom - Adventureland,0.0,30000,true
+105,Seven Dwarfs Mine Train,Magic Kingdom - Fantasyland,38.0,18000,true
+106,Peter Pan's Flight,Magic Kingdom - Fantasyland,0.0,15000,true
+107,Buzz Lightyear's Space Ranger Spin,Magic Kingdom - Tomorrowland,0.0,20000,true
+108,Jungle Cruise,Magic Kingdom - Adventureland,0.0,22000,true
+109,Dumbo the Flying Elephant,Magic Kingdom - Fantasyland,0.0,12000,true
+110,The Many Adventures of Winnie the Pooh,Magic Kingdom - Fantasyland,0.0,14000,true
+201,Star Wars: Rise of the Resistance,Disney's Hollywood Studios - Galaxy's Edge,40.0,25000,true
+202,Millennium Falcon: Smugglers Run,Disney's Hollywood Studios - Galaxy's Edge,38.0,20000,true
+203,Slinky Dog Dash,Disney's Hollywood Studios - Toy Story Land,38.0,18000,true
+204,Tower of Terror,Disney's Hollywood Studios - Sunset Boulevard,40.0,21000,true
+205,Rock 'n' Roller Coaster,Disney's Hollywood Studios - Sunset Boulevard,48.0,16000,true
+206,Toy Story Mania!,Disney's Hollywood Studios - Toy Story Land,0.0,22000,true
+301,Avatar Flight of Passage,Disney's Animal Kingdom - Pandora,44.0,24000,true
+302,Na'vi River Journey,Disney's Animal Kingdom - Pandora,0.0,18000,true
+303,Expedition Everest,Disney's Animal Kingdom - Asia,44.0,22000,true
+304,Kilimanjaro Safaris,Disney's Animal Kingdom - Africa,0.0,30000,true
+305,Dinosaur,Disney's Animal Kingdom - DinoLand U.S.A.,40.0,19000,true
