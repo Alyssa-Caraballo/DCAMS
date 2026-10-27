@@ -1,11 +1,9 @@
 package com.dcams.model;
 
 /**
- * AttractionRecord represents an individual attraction or character meet-and-greet in the DCAMS.
+ * AttractionRecord represents an individual attraction or character meet-and-greet in DCAMS.
  */
 public class AttractionRecord {
-
-    // Private attributes ensuring data encapsulation
     private int attractionID;
     private String name;
     private String parkLocation;
@@ -14,8 +12,9 @@ public class AttractionRecord {
     private boolean isActive;
 
     /**
-     * Constructs a new AttractionRecord with all required attributes.
+     Constructs new AttractionRecord
      */
+
     public AttractionRecord(int attractionID, String name, String parkLocation, double minHeightRequirement, int dailyCapacity, boolean isActive) {
         this.attractionID = attractionID;
         this.name = name;
@@ -25,15 +24,12 @@ public class AttractionRecord {
         this.isActive = isActive;
     }
 
-    /**
-     * Retrieves the attraction ID.
-     */
     public int getAttractionID() {
         return attractionID;
     }
 
     /**
-     * Sets the attraction ID with validation.
+     * set attraction ID with validation
      */
     public boolean setAttractionID(int attractionID) {
         if (attractionID > 0) {
@@ -44,14 +40,14 @@ public class AttractionRecord {
     }
 
     /**
-     * Retrieves the attraction name.
+     * retrieves attraction name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Sets the attraction name with null/empty checks.
+     *set attraction name with null/empty checks
      */
     public boolean setName(String name) {
         if (name != null && !name.trim().isEmpty()) {
@@ -62,14 +58,14 @@ public class AttractionRecord {
     }
 
     /**
-     * Retrieves the park zone location.
+     * retrieves park zone Location
      */
     public String getParkLocation() {
         return parkLocation;
     }
 
     /**
-     * Sets the park location.
+     * sets park location
      */
     public boolean setParkLocation(String parkLocation) {
         if (parkLocation != null && !parkLocation.trim().isEmpty()) {
@@ -80,18 +76,17 @@ public class AttractionRecord {
     }
 
     /**
-     * Retrieves the minimum height requirement.
+     * retrieve min height requirement
      */
-
     public double getMinHeightRequirement() {
         return minHeightRequirement;
     }
 
     /**
-     * Sets minimum height with range validation, it must be >= 0.
+     * set min height requirement with range validation, must be >= 0
      */
     public boolean setMinHeightRequirement(double minHeightRequirement) {
-        if (minHeightRequirement >= 0.0) {
+        if (minHeightRequirement >= 0.0 && minHeightRequirement <= 72.0) {
             this.minHeightRequirement = minHeightRequirement;
             return true;
         }
@@ -99,14 +94,14 @@ public class AttractionRecord {
     }
 
     /**
-     * Retrieves daily capacity.
+     * retrieve daily capacity
      */
     public int getDailyCapacity() {
         return dailyCapacity;
     }
 
     /**
-     * Sets daily capacity it must be >= 0.
+     * set daily capacity must be >= 0
      */
     public boolean setDailyCapacity(int dailyCapacity) {
         if (dailyCapacity >= 0) {
@@ -117,14 +112,14 @@ public class AttractionRecord {
     }
 
     /**
-     * Checks if the attraction is currently active.
+     * check if attraction is active
      */
     public boolean getIsActive() {
         return isActive;
     }
 
     /**
-     * Sets the active operational status flag.
+     * set active operational status flag
      */
     public boolean setIsActive(boolean active) {
         this.isActive = active;
@@ -132,12 +127,11 @@ public class AttractionRecord {
     }
 
     /**
-     * Formats the attraction record into clean readable string.
+     * format attraction record into clean string
      */
     @Override
     public String toString() {
-        return String.format("ID: %-4d | Name: %-28s | Location: %-32s | Height: %-4.1fin | Capacity: %-6d | Active: %-5b",
+        return String.format("ID: %-4d | Name: %-28s | Location: %-38s | Height: %-4.1fin | Capacity: %-6d | Active: %-5b",
                 attractionID, name, parkLocation, minHeightRequirement, dailyCapacity, isActive);
     }
 }
-

@@ -5,14 +5,14 @@ import com.dcams.model.AttractionRecord;
 import java.util.Scanner;
 
 /**
- * Provides menu loop,input validation, exception handling, and user interaction.
+ * Provides menu oop, input validation, exception handling, and user interaction
  */
 public class MainApplication {
     private AttractionManager manager;
     private Scanner scanner;
 
     /**
-     * Initializes the application controller and input scanner.
+     * initializes application controller and input scanner
      */
     public MainApplication() {
         this.manager = new AttractionManager();
@@ -20,11 +20,10 @@ public class MainApplication {
     }
 
     /**
-     * Runs the interactive menu loop for operation.
+     * run interactive menu loop
      */
     public boolean runMenuLoop() {
         boolean running = true;
-        System.out.println(" Welcome to DCAMS! (Disney Character & Attraction Management System) ");
 
         while (running) {
             printMenu();
@@ -54,17 +53,21 @@ public class MainApplication {
                     running = false;
                     break;
                 default:
-                    System.out.println("Invalid menu option. Please select numbers from 1 through 7.");
+                    System.out.println("Invalid menu option. Please select between numbers 1 and 7.");
             }
         }
         return true;
     }
 
     /**
-     * Displays the operations menu to the console.
+     * displays operations menu to the console
      */
     private void printMenu() {
-        System.out.println("\n");
+        System.out.println("\n======================================================================");
+        System.out.println("  DCAMS (Disney Character & Attraction Management System)");
+        System.out.println("  To manage resort attractions, guest capacities,");
+        System.out.println("  safety parameters, and operational throughput projections.");
+        System.out.println("======================================================================");
         System.out.println("1. Read Data");
         System.out.println("2. Display All Data");
         System.out.println("3. Create Data");
@@ -72,10 +75,11 @@ public class MainApplication {
         System.out.println("5. Remove Data");
         System.out.println("6. Calculate Zone Projected Throughput");
         System.out.println("7. Exit Program");
+        System.out.println("----------------------------------------------------------------------");
     }
 
     /**
-     * Handles batch file loading interaction.
+     * handles batch file loading interaction
      */
     private void handleBatchLoad() {
         System.out.print("Enter text file path: ");
@@ -85,21 +89,21 @@ public class MainApplication {
     }
 
     /**
-     * Displays all active records currently in memory.
+     * displays all active records in memory
      */
     private void handleDisplayData() {
         if (manager.getAttractionList().isEmpty()) {
             System.out.println("No attraction records currently exist in the system.");
             return;
         }
-        System.out.println("\n Current DCAMS Attraction Records");
+        System.out.println("\n Current DCAMS Attraction Records ");
         for (AttractionRecord record : manager.getAttractionList()) {
             System.out.println(record);
         }
     }
 
     /**
-     * Manual creation of a new attraction record
+     * manual creation of new attraction record
      */
     private void handleCreateRecord() {
         System.out.println("\n Add New Attraction Record ");
@@ -112,10 +116,8 @@ public class MainApplication {
         System.out.print("Enter Attraction/Character Name: ");
         String name = scanner.nextLine().trim();
 
-        System.out.print("Enter Park Location (example: Magic Kingdom - Tomorrowland): ");
-        String location = scanner.nextLine().trim();
-
-        double height = getValidDoubleInput("Enter Minimum Height Requirement in inches (example: 40.0): ");
+        String location = selectParkZoneMenu();
+        double height = getValidHeightInput();
         int capacity = getValidIntegerInput("Enter Daily Guest Capacity (integer): ");
         boolean active = getValidBooleanInput("Is Attraction Active? (true/false): ");
 
@@ -128,10 +130,10 @@ public class MainApplication {
     }
 
     /**
-     * Updates an existing attraction record's capacity.
+     * updates exisiting attraction record
      */
     private void handleUpdateRecord() {
-        System.out.println("\n Update Attraction Capacity ");
+        System.out.println("\n Update Attraction Record ");
         int id = getValidIntegerInput("Enter Attraction ID to update: ");
         AttractionRecord record = manager.findRecordByID(id);
         if (record == null) {
@@ -140,16 +142,48 @@ public class MainApplication {
         }
 
         System.out.println("Current Record: " + record);
-        int newCapacity = getValidIntegerInput("Enter New Daily Capacity Value: ");
-        if (manager.updateRecordCapacity(id, newCapacity)) {
-            System.out.println("Success! Capacity updated.");
-        } else {
-            System.out.println("Error! Invalid capacity value provided.");
+        System.out.println("\nSelect field to update:");
+        System.out.println("1. Name");
+        System.out.println("2. Park Location");
+        System.out.println("3. Minimum Height Requirement");
+        System.out.println("4. Daily Capacity");
+        System.out.println("5. Active Status");
+
+        int choice = getValidIntegerInput("Enter choice (1-5): ");
+        switch (choice) {
+            case 1:
+                System.out.print("Enter new name: ");
+                String newName = scanner.nextLine().trim();
+                record.setName(newName);
+                System.out.println("Success! Name updated.");
+                break;
+            case 2:
+                String newLocation = selectParkZoneMenu();
+                record.setParkLocation(newLocation);
+                System.out.println("Success! Location updated.");
+                break;
+            case 3:
+                double newHeight = getValidHeightInput();
+                record.setMinHeightRequirement(newHeight);
+                System.out.println("Success! Height requirement updated.");
+                break;
+            case 4:
+                int newCapacity = getValidIntegerInput("Enter new Daily Capacity: ");
+                record.setDailyCapacity(newCapacity);
+                System.out.println("Success! Daily capacity updated.");
+                break;
+            case 5:
+                boolean newActive = getValidBooleanInput("Is Attraction Active? (true/false): ");
+                record.setIsActive(newActive);
+                System.out.println("Success! Active status updated.");
+                break;
+            default:
+                System.out.println("Invalid field selection.");
         }
     }
 
     /**
-     * Removes an attraction record by ID.
+     * remove attraction record by ID
      */
     private void handleRemoveRecord() {
         System.out.println("\n Remove Attraction Record ");
@@ -162,19 +196,45 @@ public class MainApplication {
     }
 
     /**
-     * Executes and displays the custom throughput calculation action.
+     * execute and display the custom throughput calculation action
      */
     private void handleCustomAction() {
         System.out.println("\n Zone Projected Throughput Calculation ");
-        System.out.print("Enter Park Zone (example: Magic Kingdom - Tomorrowland): ");
-        String zone = scanner.nextLine().trim();
+        String zone = selectParkZoneMenu();
 
         double throughput = manager.calculateProjectedThroughput(zone);
         System.out.printf("Projected Daily Guest Throughput for [%s] (at 85%% operational efficiency): %.2f guests\n", zone, throughput);
     }
 
     /**
-     * Validation loop to prevent crashes from invalid integer inputs.
+     * Secondary menu preventing user typos by offering a numbered list of park zones.
+     */
+    private String selectParkZoneMenu() {
+        System.out.println("\n Select Park Zone ");
+        for (int i = 0; i < AttractionManager.VALID_ZONES.length; i++) {
+            System.out.printf("%d. %s\n", (i + 1), AttractionManager.VALID_ZONES[i]);
+        }
+        while (true) {
+            int zoneChoice = getValidIntegerInput("Select zone number: ");
+            if (zoneChoice >= 1 && zoneChoice <= AttractionManager.VALID_ZONES.length) {
+                return AttractionManager.VALID_ZONES[zoneChoice - 1];
+            }
+            System.out.println("Invalid selection. Please choose a number between 1 and " + AttractionManager.VALID_ZONES.length + ".");
+        }
+    }
+
+    private double getValidHeightInput() {
+        while (true) {
+            double height = getValidDoubleInput("Enter Minimum Height Requirement in inches (0.0 - 72.0): ");
+            if (height >= 0.0 && height <= 72.0) {
+                return height;
+            }
+            System.out.println("Error! Height must be between 0.0 and 72.0 inches.");
+        }
+    }
+
+    /**
+     * validation loop to prevent crashes for invalid integer inputs
      */
     private int getValidIntegerInput(String prompt) {
         while (true) {
@@ -189,7 +249,7 @@ public class MainApplication {
     }
 
     /**
-     * Validation loop to prevent crashes from invalid double inputs.
+     * validation loop to prevent invalid double inputs
      */
     private double getValidDoubleInput(String prompt) {
         while (true) {
@@ -204,7 +264,7 @@ public class MainApplication {
     }
 
     /**
-     * Validation loop to ensure boolean input.
+     * validation loop to ensure boolean input
      */
     private boolean getValidBooleanInput(String prompt) {
         while (true) {
@@ -213,12 +273,12 @@ public class MainApplication {
             if (input.equals("true") || input.equals("false")) {
                 return Boolean.parseBoolean(input);
             }
-            System.out.println("Invalid input. Please enter only 'true' or 'false'.");
+            System.out.println("Invalid input. Please enter exactly 'true' or 'false'.");
         }
     }
 
     /**
-     * main method to launch the application.
+     * main method to launch the application
      */
     public static void main(String[] args) {
         MainApplication app = new MainApplication();

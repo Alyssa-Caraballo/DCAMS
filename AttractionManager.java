@@ -9,29 +9,46 @@ import java.util.List;
 
 /**
  * AttractionManager handles in-memory list collections, CRUD operations,
- * batch file text reading, and custom zone throughput calculations.
+ * batch file text reading, and custom zone throughput calculations
  */
 public class AttractionManager {
-
-    // Java collection managing in-memory attraction objects
+    // Java Collection managing in-memory attraction objects
     private List<AttractionRecord> attractionList;
 
     /**
-     * Initializes AttractionManager and its ArrayList collection.
+     * second menu for park zones, users won't have to type in the zones themselves which eliminates typos
+     */
+    public static final String[] VALID_ZONES = {
+            "Magic Kingdom - Tomorrowland",
+            "Magic Kingdom - Frontierland",
+            "Magic Kingdom - Fantasyland",
+            "Magic Kingdom - Adventureland",
+            "Magic Kingdom - Liberty Square",
+            "Disney's Hollywood Studios - Galaxy's Edge",
+            "Disney's Hollywood Studios - Toy Story Land",
+            "Disney's Hollywood Studios - Sunset Boulevard",
+            "Disney's Animal Kingdom - Pandora",
+            "Disney's Animal Kingdom - Asia",
+            "Disney's Animal Kingdom - Africa",
+            "Disney's Animal Kingdom - DinoLand U.S.A."
+    };
+
+    /**
+     * Initializes AttractionManager and its ArrayList collection
      */
     public AttractionManager() {
         this.attractionList = new ArrayList<>();
     }
 
     /**
-     * Returns the active collection list.
+     * returns active collection list
      */
     public List<AttractionRecord> getAttractionList() {
         return attractionList;
     }
 
     /**
-     * Adds a new record to memory if it doesn't already exist.
+     * Adds an attraction record in memory if it doesn't already exist
      */
     public boolean addRecord(AttractionRecord record) {
         if (record != null && findRecordByID(record.getAttractionID()) == null) {
@@ -42,7 +59,7 @@ public class AttractionManager {
     }
 
     /**
-     * Searches for a record by its unique ID.
+     * searches for record by unique ID
      */
     public AttractionRecord findRecordByID(int id) {
         for (AttractionRecord record : attractionList) {
@@ -54,7 +71,7 @@ public class AttractionManager {
     }
 
     /**
-     * Removes an attraction record by ID.
+     * Removes a record by ID
      */
     public boolean removeRecord(int id) {
         AttractionRecord record = findRecordByID(id);
@@ -66,7 +83,7 @@ public class AttractionManager {
     }
 
     /**
-     * Updates an existing attraction's daily capacity.
+     * updates an attractions daily capacity
      */
     public boolean updateRecordCapacity(int id, int newCapacity) {
         AttractionRecord record = findRecordByID(id);
@@ -78,7 +95,7 @@ public class AttractionManager {
     }
 
     /**
-     * Loads attraction data in batch from an external text file (attractions.txt).
+     * loads records from a text file path.
      */
     public int loadDataFromFile(String filePath) {
         int loadedCount = 0;
@@ -100,7 +117,7 @@ public class AttractionManager {
                             loadedCount++;
                         }
                     } catch (NumberFormatException e) {
-                        // to prevent system crash
+                        // Skip malformed rows
                     }
                 }
             }
@@ -112,7 +129,7 @@ public class AttractionManager {
 
     /**
      * Custom Action: Calculates projected guest throughput for a specific park zone
-     * by summing active daily capacities and multiplying by an 85% operating efficiency factor.
+     * by summing active daily capacities and multiplying by an 85% operating efficiency factor
      */
     public double calculateProjectedThroughput(String parkLocation) {
         double totalCapacity = 0.0;
